@@ -80,20 +80,6 @@ def backward_substitution(R, y):
     # Gib den Vektor x zurück.
     return x
 
-
-
-"""if check_matrix(A):
-    P, L, R = PLR(A)
-    Pb = P @ b
-    print(Pb)
-    y = forward_substitution(L, Pb)
-    x = backward_substitution(R, y)
-
-    print('Die Lösung des linearen Gleichungssystems ist', x)
-
-
-"""
-
 def solve_linear_equation(A, b):
     if check_matrix(A, b):
         P, L, R = PLR(A)

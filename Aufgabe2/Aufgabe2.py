@@ -1,6 +1,11 @@
+"""
+Aufgabe:
+Schreiben Sie ein Programm,
+welches ein lineares Gleichungssystem Ax = b, A ∈ Rn×n, b ∈ Rn mittels LR Zerlegung löst.
+"""
+
+
 import numpy as np
-
-
 
 def check_matrix(A, b):
     m, n = A.shape

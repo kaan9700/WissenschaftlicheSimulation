@@ -83,7 +83,7 @@ def backward_substitution(R, y):
 def solve_linear_equation(A, b):
     if check_matrix(A, b):
         P, L, R = PLR(A)
-        Pb = P @ b
+        Pb = P @ b # Skalarprodukt aus P und b
         y = forward_substitution(L, Pb)
         x = backward_substitution(R, y)
 

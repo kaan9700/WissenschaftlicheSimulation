@@ -2,18 +2,17 @@
 Aufgabe:
 Implementieren Sie das skalare Newtonverfahren zur Bestimmung einer Nullstelle.
 """
-
-
-
-# Vorraussetzungen des Algorithmus:
-# f nicht linear
-#f'(x) != 0
-# f sei zweimal stetig differenzierbar
-
-
-
 import sympy as sp
 import numpy as np
+
+def set_parameter():
+    f = input("Geben Sie eine Funktion ein: ")
+    x_0 = float(input("Geben Sie x_0 ein: "))
+    n = int(input("Geben Sie die Anzahl der Iterationen ein: "))
+    e = float(input("Geben Sie die Genauigkeit ein: "))
+
+    return f, x_0, n, e
+
 
 def create_function(input_string):
     x = sp.symbols('x')
@@ -84,15 +83,7 @@ def newton(func, func_prime, x_0, n, e):
 
 
 if __name__ == "__main__":
-    print(is_twice_differentiable("x**2", 0, 1))  # Sollte True ausgeben
-    print(is_twice_differentiable("sin(x)", 0, np.pi))  # Sollte True ausgeben
-    print(is_twice_differentiable("abs(x)", 0, 1))  # Sollte False ausgeben
-
-    f = input("Geben Sie eine Funktion ein: ")
-    x_0 = float(input("Geben Sie x_0 ein: "))
-    n = int(input("Geben Sie die Anzahl der Iterationen ein: "))
-    e = float(input("Geben Sie die Genauigkeit ein: "))
-
+    f, x_0, n, e = set_parameter()
     x = sp.symbols('x')
     func = create_function(f)
     func_prime = create_derivative_function(f)

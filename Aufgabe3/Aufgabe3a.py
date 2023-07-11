@@ -7,24 +7,14 @@ Implementieren Sie ein Bisektionsverfahren zur Bestimmung einer Nullstelle im In
 import numpy as np
 import sympy as sp
 
+def set_parameter():
+    f = input("Geben Sie eine Funktion ein: ")
+    a = int(input("Geben Sie a ein: "))
+    b = int(input("Geben Sie b ein: "))
+    n = int(input("Geben Sie die Anzahl der Iterationen ein: "))
+    e = float(input("Geben Sie die Genauigkeit ein: "))
 
-# Vorraussetzungen des Algorithmus:
-# 1. f ist stetig
-# 2. f(a)f(b) < 0
-# 3. f ist monoton
-# 4. f hat eine Nullstelle im Intervall [a,b]
-
-
-#Abbruchkritierium:
-# Anzahl der Iterationen
-# Genauigkeit
-
-#Eingabe einer Funktion wie 3x^2+2x+1
-f = input("Geben Sie eine Funktion ein: ")
-a = int(input("Geben Sie a ein: "))
-b = int(input("Geben Sie b ein: "))
-n = int(input("Geben Sie die Anzahl der Iterationen ein: "))
-e = float(input("Geben Sie die Genauigkeit ein: "))
+    return f, a, b, n, e
 
 def create_function(input_string):
     x = sp.symbols('x')
@@ -79,5 +69,8 @@ def bisection(func, a, b, n, e):
     return c
 
 
-f = create_function(f)
-print(bisection(f, a, b, n, e))
+
+if __name__ == "__main__":
+    f, a, b, n, e = set_parameter()
+    f = create_function(f)
+    print(bisection(f, a, b, n, e))

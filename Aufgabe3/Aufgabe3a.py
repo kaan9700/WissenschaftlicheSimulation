@@ -6,8 +6,11 @@ Implementieren Sie ein Bisektionsverfahren zur Bestimmung einer Nullstelle im In
 
 import numpy as np
 import sympy as sp
+import re
+from sympy.calculus.util import continuous_domain
+from sympy import Interval
 
-def set_parameter():
+def set_parameter_bisection():
     f = input("Geben Sie eine Funktion ein: ")
     a = int(input("Geben Sie a ein: "))
     b = int(input("Geben Sie b ein: "))
@@ -16,28 +19,28 @@ def set_parameter():
 
     return f, a, b, n, e
 
-def create_function(input_string):
+def create_functions(input_string):
     x = sp.symbols('x')
+    modified_input_string = re.sub(r'(\d+)(x)', r'\1*\2', input_string)
     try:
-        func = sp.sympify(input_string)
+        sympy_func = sp.sympify(modified_input_string)
     except sp.SympifyError:
-        raise ValueError(f"Konnte die Funktion '{input_string}' nicht interpretieren")
-    return sp.lambdify(x, func, 'numpy')
+        raise ValueError(f"Konnte die Funktion '{modified_input_string}' nicht interpretieren")
+    numpy_func = sp.lambdify(x, sympy_func, 'numpy')
+    return {"numpy": numpy_func, "sympy": sympy_func}
 
-def is_continuous(func, a, b, num_points=1000, tolerance=1e-5):
-    x_values = np.linspace(a, b, num_points)
-    for x in x_values:
-        interval = np.linspace(x - tolerance, x + tolerance, num_points)
-        y_interval = [func(i) for i in interval]
-        if np.abs(func(x) - np.mean(y_interval)) > tolerance:
-            return False
-    return True
+def is_continuous(f, a, b):
+    x = sp.symbols('x')
+    return continuous_domain(f, x, Interval(a, b)).is_Interval
 
 
-def bisection(func, a, b, n, e):
+def bisection(f, a, b, n, e):
     # Überprüfe die Vorraussetzungen
+    func_dict = create_functions(f)
+    func = func_dict["numpy"]
+    sympy_func = func_dict["sympy"]
     # 1. f ist stetig
-    if not is_continuous(func, a, b):
+    if not is_continuous(sympy_func, a, b):
         raise ValueError("f ist nicht stetig")
     # 2. f(a)f(b) < 0
     if func(a) * func(b) >= 0:
@@ -50,6 +53,7 @@ def bisection(func, a, b, n, e):
         raise ValueError("n <= 0")
     if e <= 0:
         raise ValueError("e <= 0")
+
     #Starte den Algorithmus
     for i in range(n):
         # Berechne den Mittelpunkt des Intervalls
@@ -57,20 +61,22 @@ def bisection(func, a, b, n, e):
 
         # Überprüfe, ob die Nullstelle gefunden wurde
         if np.abs(func(c)) < e:
-            return c
-        # Wähle das neue Intervall
-        #Falls f(c) < 0, dann ist die Nullstelle im Intervall [c,b]
-        if func(c) < 0:
-            a = c
-        #Falls f(c) > 0, dann ist die Nullstelle im Intervall [a,c]
-        if func(c) > 0:
-            b = c
+            return c, i + 1
 
-    return c
+        # Wähle das neue Intervall
+        # Falls f(a)f(c) < 0, dann ist die Nullstelle im Intervall [a,c]
+        if func(a) * func(c) < 0:
+            b = c
+        # Falls f(b)f(c) < 0, dann ist die Nullstelle im Intervall [c,b]
+        elif func(b) * func(c) < 0:
+            a = c
+    return c, n
+
 
 
 
 if __name__ == "__main__":
-    f, a, b, n, e = set_parameter()
-    f = create_function(f)
+    f, a, b, n, e = set_parameter_bisection()
     print(bisection(f, a, b, n, e))
+
+

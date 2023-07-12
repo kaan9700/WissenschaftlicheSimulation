@@ -24,6 +24,7 @@ def PLR(A):
     n = A.shape[0]
     L = np.eye(n)
     P = np.eye(n)
+
     # Elemente der Matrix sollen als float gespeichert werden, da die Division zweier Ganzzahlen
     # in Python eine Ganzzahl zurückgibt
     R = A.astype('float')

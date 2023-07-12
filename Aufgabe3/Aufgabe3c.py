@@ -9,8 +9,6 @@ Stellen Sie den Iterationsverlauf, d.h. die berechneten Näherungen sowie die Fe
 """
 
 import numpy as np
-import sympy as sp
-import matplotlib.pyplot as plt
 from Aufgabe3a import bisection
 from Aufgabe3b import newton
 

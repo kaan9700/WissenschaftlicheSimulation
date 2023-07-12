@@ -11,8 +11,8 @@ def check_matrix(A, b):
     m, n = A.shape
     if m != n:
         raise ValueError("Die Matrix A ist nicht quadratisch.")
-    if np.linalg.det(A) == 0:
-        raise ValueError("Die Matrix A ist singulär (nicht invertierbar).")
+    if np.linalg.det(A) != 0:
+        raise ValueError("Die Matrix A ist regulär.")
     if A.shape[0] != b.shape[0]:
         raise ValueError("Die Dimensionen von A und b sind nicht kompatibel.")
     return True

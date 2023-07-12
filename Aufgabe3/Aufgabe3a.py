@@ -1,9 +1,3 @@
-"""
-Aufgabe:
-Implementieren Sie ein Bisektionsverfahren zur Bestimmung einer Nullstelle im Intervall
-[a,b] mit f(a)f(b) < 0.
-"""
-
 import numpy as np
 import sympy as sp
 import re
@@ -11,11 +5,11 @@ from sympy.calculus.util import continuous_domain
 from sympy import Interval
 
 def set_parameter_bisection():
-    f = input("Geben Sie eine Funktion ein: ")
-    a = int(input("Geben Sie a ein: "))
-    b = int(input("Geben Sie b ein: "))
-    n = int(input("Geben Sie die Anzahl der Iterationen ein: "))
-    e = float(input("Geben Sie die Genauigkeit ein: "))
+    f = "x^3 - x^2 + 2"
+    a = -200
+    b = 300
+    n = 1000
+    e = 1e-5
 
     return f, a, b, n, e
 
@@ -61,7 +55,7 @@ def bisection(f, a, b, n, e):
 
         # Überprüfe, ob die Nullstelle gefunden wurde
         if np.abs(func(c)) < e:
-            return c, i + 1
+            return round(c, 5), i + 1
 
         # Wähle das neue Intervall
         # Falls f(a)f(c) < 0, dann ist die Nullstelle im Intervall [a,c]
@@ -70,13 +64,9 @@ def bisection(f, a, b, n, e):
         # Falls f(b)f(c) < 0, dann ist die Nullstelle im Intervall [c,b]
         elif func(b) * func(c) < 0:
             a = c
-    return c, n
-
-
+    return round(c, 5), n
 
 
 if __name__ == "__main__":
     f, a, b, n, e = set_parameter_bisection()
-    print(bisection(f, a, b, n, e))
-
-
+    bisection(f, a, b, n, e)

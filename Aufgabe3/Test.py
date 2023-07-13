@@ -42,6 +42,7 @@ def tests():
 
 tests()
 
-f = sp.cos(x)-x
+f = x**3-x-1
 
-print(is_continuous(f, 1, 2))
+print(is_continuous(f, -2, 2))
+print(is_twice_differentiable(f, -2, 2))

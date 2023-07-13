@@ -4,14 +4,6 @@ import re
 from sympy.calculus.util import continuous_domain
 from sympy import Interval
 
-def set_parameter_bisection():
-    f = "x^3 - x^2 + 2"
-    a = -200
-    b = 300
-    n = 1000
-    e = 1e-5
-
-    return f, a, b, n, e
 
 def create_functions(input_string):
     x = sp.symbols('x')
@@ -68,5 +60,13 @@ def bisection(f, a, b, n, e):
 
 
 if __name__ == "__main__":
-    f, a, b, n, e = set_parameter_bisection()
-    bisection(f, a, b, n, e)
+    # "root": 1.13472
+    test_functions = [
+        {"func": "x^6-x-1", "a": 0, "b": 2},
+    ]
+    n = 10
+    e = 1e-5
+    for test_function in test_functions:
+        root_bisection, iterations_bisection = bisection(test_function["func"], test_function["a"], test_function["b"], n, e)
+        print(f"Bisektionsverfahren: Nullstelle bei {root_bisection}, "
+              f"erreicht nach {iterations_bisection} Iterationen.")

@@ -1,7 +1,9 @@
-import numpy as np
+
 from scipy.linalg import norm
 import matplotlib.pyplot as plt
 from Aufgabe2.Aufgabe2 import solve_linear_equation
+import autograd.numpy as np
+from autograd import jacobian
 
 # Diese Funktion implementiert das Newton-Verfahren für mehrdimensionale Probleme.
 # F ist die Funktion, die die nichtlinearen Gleichungen repräsentiert.
@@ -9,12 +11,13 @@ from Aufgabe2.Aufgabe2 import solve_linear_equation
 # x0 ist der Anfangswert / Schätzung.
 # tol ist die Toleranz für die Konvergenz des Verfahrens.
 # max_iter ist die maximale Anzahl von Iterationen, die durchgeführt werden sollen.
-def newton_multidimensional(F, J, x0, tol=1e-5, max_iter=100):
+def newton_multidimensional(F, x0, solution, tol=1e-5, max_iter=100):
     # Initialisierung der Lösungsschätzung und des Fehlers.
     x = x0
     iteration_counter = 0
     error = np.inf
     errors = []
+    J = jacobian(F)
 
     # Hauptiterationsschleife. Es wird so lange iteriert, bis der Fehler kleiner als die Toleranz ist oder die maximale Anzahl von Iterationen erreicht ist.
     while error > tol and iteration_counter < max_iter:
@@ -24,8 +27,8 @@ def newton_multidimensional(F, J, x0, tol=1e-5, max_iter=100):
         # Aktualisierung der Lösungsschätzung durch Hinzufügen der Änderung zur aktuellen Schätzung.
         x_next = x + delta
 
-        # Berechnung des Fehlers als 2-Norm der Differenz zwischen der aktuellen und der neuen Lösungsschätzung.
-        error = norm(x_next - x, 2)
+        # Berechnung des Fehlers als euklidische Distanz
+        error = norm(x_next - solution)
 
         # Speicherung des aktuellen Fehlers in der Fehlerliste für spätere Analyse.
         errors.append(error)

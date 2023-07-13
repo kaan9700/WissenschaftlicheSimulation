@@ -70,7 +70,8 @@ if __name__ == "__main__":
 
             root_newton, iterations_newton, parameter= newton(test["func"], test["x_0"], n, e, test["root"])
             print(f"Newton-Verfahren: Nullstelle bei {root_newton}, erreicht nach {iterations_newton} Iterationen.")
-
+            print(f"Die experimentelle Konvergenzordnung für jede Iteration {parameter['eoc']}")
+            print(f"Die Fehler für jede Iteration {parameter['errors']}")
             # Plotte die Parameter
             plot_parameter(parameter, test['func'])
 

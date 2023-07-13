@@ -4,19 +4,19 @@ import re
 from sympy.calculus.util import continuous_domain
 from sympy import Interval
 
-
 def create_functions(input_string):
     x = sp.symbols('x')
     modified_input_string = re.sub(r'(\d+)(x)', r'\1*\2', input_string)
-    match = re.search(r"[^0-9+\-*/^(). x]", modified_input_string)
-    if match:
-        raise ValueError(f"Ungültiges Zeichen '{match.group(0)}' in der Funktion")
+
     try:
         sympy_func = sp.sympify(modified_input_string)
-    except sp.SympifyError:
-        raise ValueError(f"Konnte die Funktion '{modified_input_string}' nicht interpretieren")
-    numpy_func = sp.lambdify(x, sympy_func, 'numpy')
+        numpy_func = sp.lambdify(x, sympy_func, 'numpy')
+    except (sp.SympifyError, SyntaxError, ValueError, NameError) as error:
+        raise ValueError(f"Konnte die Funktion '{modified_input_string}' nicht interpretieren: {error}")
+
     return {"numpy": numpy_func, "sympy": sympy_func}
+
+
 
 def is_continuous(f, a, b):
     x = sp.symbols('x')

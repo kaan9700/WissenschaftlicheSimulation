@@ -8,6 +8,9 @@ from sympy import Interval
 def create_functions(input_string):
     x = sp.symbols('x')
     modified_input_string = re.sub(r'(\d+)(x)', r'\1*\2', input_string)
+    match = re.search(r"[^0-9+\-*/^(). x]", modified_input_string)
+    if match:
+        raise ValueError(f"Ungültiges Zeichen '{match.group(0)}' in der Funktion")
     try:
         sympy_func = sp.sympify(modified_input_string)
     except sp.SympifyError:
@@ -39,6 +42,16 @@ def bisection(f, a, b, n, e):
         raise ValueError("n <= 0")
     if e <= 0:
         raise ValueError("e <= 0")
+
+    if not isinstance(a, (int, float)):
+        raise ValueError("a ist keine Zahl")
+    if not isinstance(b, (int, float)):
+        raise ValueError("b ist keine Zahl")
+    if not isinstance(n, int):
+        raise ValueError("n ist keine ganze Zahl")
+    if not isinstance(e, (int, float)):
+        raise ValueError("e ist keine Zahl")
+
 
     #Starte den Algorithmus
     for i in range(n):

@@ -42,6 +42,16 @@ def newton(f, x_0, n, e, xd=None):
     if e <= 0:
         raise ValueError("e <= 0")
 
+    if not isinstance(x_0, (int, float)):
+        raise ValueError("x_0 ist keine Zahl")
+    if not isinstance(n, int):
+        raise ValueError("n ist keine ganze Zahl")
+    if not isinstance(e, (int, float)):
+        raise ValueError("e ist keine Zahl")
+
+
+
+
     # Ersetze alle ax durch a*x, um die Eingabe zu vereinfachen
     modified_input_string = re.sub(r'(\\\\d+)(x)', r'\\\\1*\\\\2', f)
 
